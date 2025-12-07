@@ -1,6 +1,6 @@
 #!/bin/bash
 AWS_REGION="ap-south-1"
-ACCOUNT_ID="<YOUR_AWS_ACCOUNT_ID>"
+ACCOUNT_ID="<246844015696>"
 REPO_NAME="myapp-repo"
 IMAGE_TAG="latest"
 
