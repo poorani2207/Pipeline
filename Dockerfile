@@ -1,9 +1,14 @@
-# Use a lightweight web server image; replace with your base if node/python, etc.
+# Use a lightweight web server image
 FROM nginx:alpine
 
-# Copy app into nginx html directory (adjust for your app)
+# Remove default nginx website
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy your application files into nginx folder
 COPY src/ /usr/share/nginx/html/
 
-EXPOSE <APP_PORT>
+# Expose nginx port
+EXPOSE 80
 
+# Start nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]
