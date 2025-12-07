@@ -1,8 +1,19 @@
 #!/bin/bash
+
 CONTAINER_NAME="myapp"
 
-echo "Stopping old container if exists..."
-docker ps -q --filter "name=$CONTAINER_NAME" | grep -q . && docker stop $CONTAINER_NAME
-docker ps -a -q --filter "name=$CONTAINER_NAME" | grep -q . && docker rm $CONTAINER_NAME
+echo "Checking for running container: $CONTAINER_NAME"
 
-echo "Old container removed."
+# Stop if running
+if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
+  echo "Stopping running container..."
+  docker stop $CONTAINER_NAME
+fi
+
+# Remove if exists
+if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
+  echo "Removing old container..."
+  docker rm $CONTAINER_NAME
+fi
+
+echo "Container cleanup completed."
