@@ -1,0 +1,33 @@
+version: 0.2
+
+env:
+  variables:
+    REPOSITORY_URI: "<AWS_ACCOUNT_ID>.dkr.ecr.<AWS_REGION>.amazonaws.com/<ECR_REPO_NAME>"
+phases:
+  pre_build:
+    commands:
+      - echo "Starting pre_build..."
+      - echo "AWS region: $AWS_REGION"
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:-latest}
+      - echo "IMAGE_TAG=$IMAGE_TAG" > image_env.txt
+      - echo Logging in to ECR...
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
+  build:
+    commands:
+      - echo "Building Docker image..."
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+      - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:latest
+  post_build:
+    commands:
+      - echo "Pushing Docker images..."
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:latest || true
+      - echo "Writing imageDetail.json"
+      - printf '{"imageUri":"%s"}' "$REPOSITORY_URI:$IMAGE_TAG" > imageDetail.json
+artifacts:
+  files:
+    - appspec.yml
+    - scripts/**/*
+    - imageDetail.json
+  discard-paths: no
