@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AWS_REGION="ap-south-1"
-ACCOUNT_ID="246844015696"
+ACCOUNT_ID="311719320436"
 REPO_NAME="myapp"
 
 echo "Logging in to Amazon ECR..."
