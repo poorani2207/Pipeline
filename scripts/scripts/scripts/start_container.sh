@@ -2,8 +2,8 @@
 CONTAINER_NAME="myapp"
 PORT=80
 AWS_REGION="ap-south-1"
-ACCOUNT_ID="<246844015696>"
-REPO_NAME="myapp-repo"
+ACCOUNT_ID="<311719320436>"
+REPO_NAME="myapp"
 IMAGE_TAG="latest"
 
 echo "Starting new container..."
