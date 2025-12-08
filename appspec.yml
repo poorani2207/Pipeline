@@ -5,23 +5,33 @@ files:
   - source: /
     destination: /home/ec2-user/app
 
+permissions:
+  - object: /home/ec2-user/app
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
+    mode: 775
+    type:
+      - file
+      - directory
+
 hooks:
   BeforeInstall:
-    - location: scripts/stop_old_container.sh
+    - location: /home/ec2-user/app/scripts/stop_old_container.sh
       timeout: 300
       runas: root
 
   AfterInstall:
-    - location: scripts/pull_image.sh
+    - location: /home/ec2-user/app/scripts/pull_image.sh
       timeout: 300
       runas: root
 
   ApplicationStart:
-    - location: scripts/start_container.sh
+    - location: /home/ec2-user/app/scripts/start_container.sh
       timeout: 300
       runas: root
 
   ValidateService:
-    - location: scripts/validate.sh
+    - location: /home/ec2-user/app/scripts/validate.sh
       timeout: 60
       runas: root
