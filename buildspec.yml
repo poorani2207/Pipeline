@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     AWS_REGION: "ap-south-1"
-    REPOSITORY_URI: "246844015696.dkr.ecr.ap-south-1.amazonaws.com/myapp"
+    REPOSITORY_URI: "311719320436.dkr.ecr.ap-south-1.amazonaws.com/myapp"
 
 phases:
   pre_build:
