@@ -5,7 +5,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy your application files into nginx folder
-COPY src/ /usr/share/nginx/html/
+COPY . /usr/share/nginx/html/
 
 # Expose nginx port
 EXPOSE 80
