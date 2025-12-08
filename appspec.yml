@@ -3,25 +3,25 @@ os: linux
 
 files:
   - source: /
-    destination: /tmp/deploy
+    destination: /home/ec2-user/app
 
 hooks:
   BeforeInstall:
-    - location: /tmp/deploy/scripts/stop_old_container.sh
+    - location: scripts/stop_old_container.sh
       timeout: 300
       runas: root
 
   AfterInstall:
-    - location: /tmp/deploy/scripts/pull_image.sh
+    - location: scripts/pull_image.sh
       timeout: 300
       runas: root
 
   ApplicationStart:
-    - location: /tmp/deploy/scripts/start_container.sh
+    - location: scripts/start_container.sh
       timeout: 300
       runas: root
 
   ValidateService:
-    - location: /tmp/deploy/scripts/validate.sh
+    - location: scripts/validate.sh
       timeout: 60
       runas: root
