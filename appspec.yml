@@ -7,21 +7,21 @@ files:
 
 hooks:
   BeforeInstall:
-    - location: scripts/stop_old_container.sh
+    - location: /tmp/deploy/scripts/stop_old_container.sh
       timeout: 300
       runas: root
 
   AfterInstall:
-    - location: scripts/pull_image.sh
+    - location: /tmp/deploy/scripts/pull_image.sh
       timeout: 300
       runas: root
 
   ApplicationStart:
-    - location: scripts/start_container.sh
+    - location: /tmp/deploy/scripts/start_container.sh
       timeout: 300
       runas: root
 
   ValidateService:
-    - location: scripts/validate.sh
+    - location: /tmp/deploy/scripts/validate.sh
       timeout: 60
       runas: root
