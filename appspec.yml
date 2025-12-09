@@ -18,21 +18,21 @@ permissions:
 
 hooks:
   BeforeInstall:
-    - location: scripts/stop_container.sh
+    - location: /home/ec2-user/app/scripts/stop_container.sh
       timeout: 300
       runas: root
 
   AfterInstall:
-    - location: scripts/pull_image.sh
+    - location: /home/ec2-user/app/scripts/pull_image.sh
       timeout: 300
       runas: root
 
   ApplicationStart:
-    - location: scripts/run_container.sh
+    - location: /home/ec2-user/app/scripts/run_container.sh
       timeout: 300
       runas: root
 
   ValidateService:
-    - location: scripts/validate.sh
+    - location: /home/ec2-user/app/scripts/validate.sh
       timeout: 60
       runas: root
