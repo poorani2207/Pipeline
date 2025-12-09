@@ -15,10 +15,16 @@ fi
 
 echo "Stopping old container if exists"
 docker stop $CONTAINER_NAME || true
-
-echo "Removing old container if exists"
 docker rm $CONTAINER_NAME || true
+
+# 🔥 Kill any container using port 80
+CONTAINER_ON_PORT=$(docker ps -q --filter "publish=$PORT")
+if [ ! -z "$CONTAINER_ON_PORT" ]; then
+  echo "Port $PORT is in use by container $CONTAINER_ON_PORT. Stopping it..."
+  docker stop $CONTAINER_ON_PORT || true
+  docker rm $CONTAINER_ON_PORT || true
+fi
 
 echo "Starting new container..."
 docker run -d --name $CONTAINER_NAME -p $PORT:80 \
- $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG
+  $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG
