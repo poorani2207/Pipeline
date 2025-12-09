@@ -13,18 +13,24 @@ else
     IMAGE_TAG="latest"
 fi
 
+echo "Using IMAGE TAG: $IMAGE_TAG"
+
 echo "Stopping old container if exists"
 docker stop $CONTAINER_NAME || true
 docker rm $CONTAINER_NAME || true
 
-# 🔥 Kill any container using port 80
+# 🔥 Kill any container already using required port
 CONTAINER_ON_PORT=$(docker ps -q --filter "publish=$PORT")
 if [ ! -z "$CONTAINER_ON_PORT" ]; then
-  echo "Port $PORT is in use by container $CONTAINER_ON_PORT. Stopping it..."
-  docker stop $CONTAINER_ON_PORT || true
-  docker rm $CONTAINER_ON_PORT || true
+    echo "Port $PORT is in use by container $CONTAINER_ON_PORT. Stopping it..."
+    docker stop $CONTAINER_ON_PORT || true
+    docker rm $CONTAINER_ON_PORT || true
 fi
 
 echo "Starting new container..."
-docker run -d --name $CONTAINER_NAME -p $PORT:80 $IMAGE_URI
+docker run -d \
+  --name $CONTAINER_NAME \
+  -p $PORT:80 \
   $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG
+
+echo "Container started successfully on port $PORT"
