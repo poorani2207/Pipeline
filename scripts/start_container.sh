@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CONTAINER_NAME="myapp"
-PORT=80
+PORT=8080
 AWS_REGION="ap-south-1"
 ACCOUNT_ID="311719320436"
 REPO_NAME="myapp"
@@ -26,5 +26,5 @@ if [ ! -z "$CONTAINER_ON_PORT" ]; then
 fi
 
 echo "Starting new container..."
-docker run -d --name $CONTAINER_NAME -p $PORT:80 \
+docker run -d --name $CONTAINER_NAME -p $PORT:80 $IMAGE_URI
   $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG
